@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Index</title> <!-- TO:DO Change Name -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <style>
+
+      button{
+       width:100%;
+       border-radius: 0 !important;
+       text-align:left !important;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color:#e9e9e9;
+      }
+      #header{
+        height:10em;
+        background-color:black;
+        padding:2em 45%;
+      }
+      #main-body{
+        height:140em;
+        width:81em;
+        margin-left:auto;
+        margin-right:auto;
+      }
+      #headline{
+        display:inline-block;
+        width:100%;
+        height:5em;
+      }
+      #leftPanel{
+        height:50em;
+        background-color:white;
+        width:20em;
+        display:inline-block;
+        vertical-align: top;
+        border:3px solid #73AD21;
+      }
+      #title{
+        color:white;
+        font-style: italic;
+      }
+      #menu{
+        vertical-align: top;
+        display:inline-block;
+        height:50em;
+        width:9.5em;
+      }
+      #select{
+        display:inline-block;
+        height:50em;
+        width:9.5em;
+      }
+      #rightPanel{
+        vertical-align: top;
+        height:50em;
+        background-color:white;
+        width:20em;
+        display:inline-block;
+        border:3px solid #73AD21;
+      }
+      #map {
+        height:40em;
+        width:40em;
+        border:3px solid #73AD21;
+        display:inline-block;
+      }
+      #categories{
+        display:inline-block;
+        background-color:white;
+        width:40em;
+        height:9.6em;
+        border:3px solid #73AD21;
+      }
+      #center-body{
+        display:inline-block;
+        height:50em;
+        width:40em;
+      }
+      .userInput{
+        border:1px solid black;
+        color:black;
+        width:100%;
+        background-color:#5bc0de;
+      }
+      ::-webkit-input-placeholder {
+        color: black;
+      }
+      #userSubmit{
+        width:6em;
+        margin-left:4px;
+        color:black;
+      }
+      .toDo{
+        margin-left:40%;
+        margin-top:10%;
+      }
+    </style>
+    <script type="text/javascript">
+      var markerLats = [];
+      var markerLons = [];
+
+      var list =[
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0]
+      ];
+      var category = ["Art", "Discussion", "Community", "Education", "Music", "Technology", "Science", "Culture", "Gaming", "Celebrities", "Politics", "Sports", "Food", "Career", "Travel"];
+
+      $(document).ready(function(){
+        for(var i = 0; i < category.length; i++){
+          $( "#menu" ).append("<button onclick=createList("+i+") class='btn btn-primary'>"+category[i]+"</button>");
+        }
+      });
+      function createList(id){
+        var container = document.getElementById("select");
+        while (container.firstChild) {
+          container.removeChild(container.firstChild);
+        }
+        for(var i = 0; i < list[id].length; i++){
+          $( "#select" ).append("<button type=button class='btn btn-info'>Value"+i+"</button>");
+        }
+      }
+      $(function() {
+        $( "#addDate" ).datepicker();
+        $('.time').timepicker();
+      });
+      $(function() {
+        $("#event").on("submit", function(e) {
+          e.preventDefault();
+          $.ajax({
+            url: $(this).attr("action"),
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(){
+              resetForm('event');
+            },
+          });
+        });
+      });
+
+
+    </script>
+
+    <script>
+ function resetForm(formid) {
+   $(':input','#'+formid) .not(':button, :submit, :reset, :hidden') .val('')
+  .removeAttr('checked') .removeAttr('selected');
+  }
+
+      
+    </script>
+
+  </head>
+  <body>
+    <div id = "header">
+      <h2 id = "title">No Title</h2>
+    </div>
+    <div id = "main-body">
+      <div id = "headline"></div>
+      <div id = "leftPanel">
+        <div id = "menu">
+          
+        </div>
+        <div id = "select">
+
+        </div>
+      </div>
+      
+      <div id = center-body>
+        <div id = "categories">
+          <p class = "toDo">TO:DO display all icons.</p>
+        </div>
+        <div id = "map"></div>
+      </div>
+
+      <div id = "rightPanel">
+      <div>
+          <form action="/application" method="POST" id="event">
+            {% csrf_token %}
+            <textarea id = xLat readonly=readonly  hidden name = "x"></textarea> <!-- add: hidden -->
+            <textarea id = xLon readonly=readonly hidden name = "y"></textarea> <!-- add: hidden -->
+            <input class = "userInput" type="text" name="title" placeholder="Title:">
+            <input class = "userInput" type="text" name="description" placeholder="Description:">
+            <input class = "userInput" type="text" name="eventDay" id = "addDate" placeholder="Event's day:">
+            <input type="text" name="eventStart" class = "time userInput" placeholder="Start Time:">
+            <input type="text" name="eventEnd"  class = "time userInput" placeholder="End Time:">
+            <textarea class = "userInput" type="text" name="requirements" placeholder="Requirements:"></textarea>
+            <input id = "userSubmit" type="submit" value="Submit" class= "btn btn-info">
+          </form>
+      </div>
+        <p class = "toDo">TO:DO display nearest events info.</p>
+      </div>
+    </div>
+
+    <script>
+      // push all markers into single array >Icons.
+      var pushToServer = true;
+      var i = 0;
+      var icons = [];
+      var map;
+      var startPos;
+      var userLocation;
+      var markerRightClickLat;
+      var markerRightClickLon;
+      if (navigator.geolocation) {
+        console.log('Geolocation is supported!');
+      } else {
+        console.log('Geolocation is not supported for this Browser/OS version yet.');
+      }
+      window.onload = function(){
+
+      }
+      function initMap() {
+        var geoSuccess = function(position) {
+          startPos = position;
+          startLat = startPos.coords.latitude;
+          startLon = startPos.coords.longitude;
+          document.getElementById("xLat").innerHTML = startLat;
+          document.getElementById("xLon").innerHTML = startLon;
+          map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 18,
+          center: {lat: startLat, lng: startLon},
+          mapTypeId: google.maps.MapTypeId.TERRAIN,
+          // disables all default controls
+          disableDefaultUI: true,
+
+
+        });
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+        var url = "/application";
+        var iconPics = ["horsebackriding", "hiker", "sportvenue", "sailing", "bar"]
+        var j = -1;
+        $.get(url, function(res){
+          for(var i = 0; i < res.length; i++){
+            j++;
+            if(iconPics[j] === undefined){
+              j = 0;
+            }
+            markerLats.push(res.lat);
+            markerLons.push(res.lon);
+            var marker = new google.maps.Marker({
+              position: {lat: res[i].lat, lng: res[i].lon},
+              map: map,
+              title: res[i].title,
+              icon: "http://maps.google.com/mapfiles/ms/icons/"+iconPics[j]+".png"
+            });
+          icons.push(marker);
+          
+          }
+        });
+        google.maps.event.addListener(map, 'rightclick', function(event) {
+          if(userLocation !=null){
+            userLocation.setMap(null);
+          }
+          markerRightClickLat = event.latLng.lat();
+          markerRightClickLon = event.latLng.lng();
+          document.getElementById("xLat").innerHTML = markerRightClickLat;
+          document.getElementById("xLon").innerHTML = markerRightClickLon;
+          
+          userLocation = new google.maps.Marker({
+            position: {lat: markerRightClickLat, lng: markerRightClickLon},
+            map: map,
+            title: 'Choose a marker!'
+          });
+        });
+      }
+      navigator.geolocation.getCurrentPosition(geoSuccess);
+
+      //Responsive recentering map.
+      google.maps.event.addDomListener(window, "resize", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+      });
+
+
+
+
+    };
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMPkbqBIrPrkJpjQ_THviXDrhmh3Ib5Y0&callback=initMap">
+    </script>
+  </body>
+</html>

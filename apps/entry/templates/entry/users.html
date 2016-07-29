@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+	<title>Index</title> <!-- TO:DO Change Name -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<style>
+	label{
+		display:block;
+	}
+	body{
+		height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color:#e9e9e9;
+	}
+</style>
+<body>
+	<div id="wrapper" class = "container">
+		<h4>TO:DO ENTRY PAGE</h4>
+		<div>
+			<form action="/entry/login" method="post">
+			{% csrf_token %}
+			<h3>Login</h3>
+			<div>
+				<div>
+					<label>Username:</label>
+					<input type = "text" name = "username">
+				</div>
+				<div>
+					<label>Password:</label>
+					<input type = "text" name = "password">
+				</div>
+			</div>
+
+			<input class = "btn-primary" type = "submit" value = "Login">
+			</form>
+		</div>
+
+
+		<div>
+			<form action="/entry/register" method="post">
+			{% csrf_token %}
+			<h3>Registration</h3>
+			<div>
+				<label>Name:</label>
+				<input type = "text" name = "name">
+			</div>
+			<div>
+				<label>Username:</label>
+				<input type = "text" name = "username">
+			</div>
+			<div>
+				<label>Password:</label>
+				<input type = "text" name = "password" placeholder="********">
+			</div>
+			<div>
+				<label>Confirm Password:</label>
+				<input type = "text" name = "c_password" placeholder="Min 8 characters">
+			</div>
+			<input class = "btn-primary" type = "submit" value = "Register">
+			</form>
+		</div>
+	</div>
+</body>
+</html> 
